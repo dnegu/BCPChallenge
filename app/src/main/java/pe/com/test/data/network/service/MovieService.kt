@@ -2,7 +2,6 @@ package pe.com.test.data.network.service
 
 import pe.com.test.data.network.dto.MoviePopularBase
 import pe.com.test.data.network.dto.MovieUpcomingBase
-import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 

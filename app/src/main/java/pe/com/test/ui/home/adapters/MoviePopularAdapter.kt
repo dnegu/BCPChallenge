@@ -11,8 +11,8 @@ import android.widget.ImageView
 import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import pe.com.test.data.network.dto.MoviePopular
 import pe.com.test.R
+import pe.com.test.data.network.dto.MoviePopular
 import java.net.URL
 import java.util.concurrent.Executors
 
@@ -39,17 +39,17 @@ class MoviePopularAdapter(val moviePopular: List<MoviePopular?>) :
 
     class MoviePopularViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(moviePopular: MoviePopular) {
-            val image_view = itemView.findViewById<ImageView>(R.id.posterImageView)
+            val imageView = itemView.findViewById<ImageView>(R.id.posterImageView)
             val executor = Executors.newSingleThreadExecutor()
             val handler = Handler(Looper.getMainLooper())
-            var image: Bitmap? = null
+            var image: Bitmap?
             executor.execute {
                 val imageURL = "https://image.tmdb.org/t/p/w185/${moviePopular.posterPath}"
                 try {
                     val `in` = URL(imageURL).openStream()
                     image = BitmapFactory.decodeStream(`in`)
                     handler.post {
-                        image_view.setImageBitmap(image)
+                        imageView.setImageBitmap(image)
                     }
                 }
                 catch (e: Exception) {

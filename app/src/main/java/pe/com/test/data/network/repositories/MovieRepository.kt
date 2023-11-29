@@ -3,7 +3,6 @@ package pe.com.test.data.network.repositories
 import pe.com.test.data.network.dto.MoviePopularBase
 import pe.com.test.data.network.dto.MovieUpcomingBase
 import pe.com.test.data.network.service.MovieService
-import retrofit2.Response
 import javax.inject.Inject
 
 class MovieRepository @Inject constructor(private val movieService: MovieService) : MovieService{
