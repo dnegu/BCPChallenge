@@ -36,23 +36,26 @@ class FirstFragment : BaseFragment<FragmentFirstBinding,MovieListViewModel>() {
                         (requireActivity() as HomeActivity).showLoading(false)
                     }
                     is MovieListUIEvent.Error -> {
-                        Snackbar.make(binding!!.baseView, event.error, Snackbar.LENGTH_LONG).show()
+                        Snackbar.make(binding.baseView, event.error, Snackbar.LENGTH_LONG).show()
                     }
                     is MovieListUIEvent.SuccessPopular -> {
-                        moviePopularAdapter = MoviePopularAdapter(event.list)
-                        binding.moviePopularRecyclerView.layoutManager =
-                            LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
-                        binding.moviePopularRecyclerView!!.adapter = moviePopularAdapter
+                        with(binding){
+                            moviePopularAdapter = MoviePopularAdapter(event.list)
+                            moviePopularRecyclerView.layoutManager =
+                                LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+                            moviePopularRecyclerView.adapter = moviePopularAdapter
+                        }
                     }
                     is MovieListUIEvent.SuccessUpcoming -> {
-                        adapterUpcoming.updateData(event.list)
-                        binding?.movieUpcomingRecyclerView?.layoutManager =
-                            LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
-                        binding?.movieUpcomingRecyclerView!!.adapter = adapterUpcoming
+                        with(binding){
+                            adapterUpcoming.updateData(event.list)
+                            movieUpcomingRecyclerView.layoutManager =
+                                LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+                            movieUpcomingRecyclerView.adapter = adapterUpcoming
+                        }
                     }
                 }
             }
         }
-
     }
 }

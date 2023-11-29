@@ -2,7 +2,7 @@ package pe.com.test.data.network.dto
 
 import com.google.gson.annotations.SerializedName
 
-class MoviePopular(
+data class MoviePopular(
     val popularity: Double,
     @SerializedName("vote_count") val voteCount: Int,
     val video: Boolean,
