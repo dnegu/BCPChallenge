@@ -1,4 +1,4 @@
-package pe.com.test
+package pe.com.test.ui.home.adapters
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -8,10 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import pe.com.test.R
+import pe.com.test.data.network.dto.MovieUpcoming
 import java.util.concurrent.Executors
 
 class AdapterMovieUpcoming() :

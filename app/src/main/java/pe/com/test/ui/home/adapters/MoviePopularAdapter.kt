@@ -1,8 +1,7 @@
-package pe.com.test
+package pe.com.test.ui.home.adapters
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.os.AsyncTask
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
@@ -12,6 +11,8 @@ import android.widget.ImageView
 import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import pe.com.test.R
+import pe.com.test.data.network.dto.MoviePopular
 import java.net.URL
 import java.util.concurrent.Executors
 
@@ -31,23 +32,24 @@ class MoviePopularAdapter(val moviePopular: List<MoviePopular?>) :
         holder.bind(item!!)
         val bundle = bundleOf("title" to item.title, "posterPath" to item.posterPath, "overview" to item.overview)
         holder.itemView.setOnClickListener{ view ->
+
             view.findNavController().navigate(R.id.action_FirstFragment_to_DetailFragment, bundle)
         }
     }
 
     class MoviePopularViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(moviePopular: MoviePopular) {
-            val image_view = itemView.findViewById<ImageView>(R.id.posterImageView)
+            val imageView = itemView.findViewById<ImageView>(R.id.posterImageView)
             val executor = Executors.newSingleThreadExecutor()
             val handler = Handler(Looper.getMainLooper())
-            var image: Bitmap? = null
+            var image: Bitmap?
             executor.execute {
                 val imageURL = "https://image.tmdb.org/t/p/w185/${moviePopular.posterPath}"
                 try {
                     val `in` = URL(imageURL).openStream()
                     image = BitmapFactory.decodeStream(`in`)
                     handler.post {
-                        image_view.setImageBitmap(image)
+                        imageView.setImageBitmap(image)
                     }
                 }
                 catch (e: Exception) {
