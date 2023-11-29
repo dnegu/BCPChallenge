@@ -17,7 +17,7 @@ import pe.com.test.ui.home.adapters.MoviePopularAdapter
 @AndroidEntryPoint
 class FirstFragment : BaseFragment<FragmentFirstBinding,MovieListViewModel>() {
 
-    var adapterUpcoming = AdapterMovieUpcoming()
+    var adapterUpcoming = AdapterMovieUpcoming(listOf())
     lateinit var moviePopularAdapter: MoviePopularAdapter
     override fun getViewModelClass() = MovieListViewModel::class.java
 
@@ -45,7 +45,7 @@ class FirstFragment : BaseFragment<FragmentFirstBinding,MovieListViewModel>() {
                         binding.moviePopularRecyclerView!!.adapter = moviePopularAdapter
                     }
                     is MovieListUIEvent.SuccessUpcoming -> {
-                        adapterUpcoming.data = event.list
+                        adapterUpcoming.updateData(event.list)
                         binding?.movieUpcomingRecyclerView?.layoutManager =
                             LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
                         binding?.movieUpcomingRecyclerView!!.adapter = adapterUpcoming

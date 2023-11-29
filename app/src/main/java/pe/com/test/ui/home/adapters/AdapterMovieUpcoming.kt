@@ -1,62 +1,52 @@
 package pe.com.test.ui.home.adapters
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import pe.com.test.R
 import pe.com.test.data.network.dto.MovieUpcoming
-import java.util.concurrent.Executors
+import pe.com.test.databinding.MovieUpcomingItemBinding
 
-class AdapterMovieUpcoming() :
+class AdapterMovieUpcoming(private var data: List<MovieUpcoming?>) :
     RecyclerView.Adapter<AdapterMovieUpcoming.MovieUpcomingViewHolder>() {
 
-    var data: List<MovieUpcoming?> = emptyList()
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieUpcomingViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.movie_upcoming_item, parent, false)
-        return MovieUpcomingViewHolder(view)
+        val binding = MovieUpcomingItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return MovieUpcomingViewHolder(binding)
     }
 
     override fun getItemCount(): Int = data.size
 
     override fun onBindViewHolder(holder: MovieUpcomingViewHolder, position: Int) {
         val item = data[position]
-        holder.bind(item!!)
-        val bundle = bundleOf("title" to item.title, "posterPath" to item.posterPath, "overview" to item.overview)
-        holder.itemView.setOnClickListener{ view ->
-            view.findNavController().navigate(R.id.action_FirstFragment_to_DetailFragment, bundle)
-        }
+        item?.let { holder.bind(it) }
     }
 
-    class MovieUpcomingViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    fun updateData(newData: List<MovieUpcoming?>) {
+        data = newData
+        notifyDataSetChanged()
+    }
+
+    class MovieUpcomingViewHolder(private val binding: MovieUpcomingItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(movieUpcoming: MovieUpcoming) {
-            val image_view = itemView.findViewById<ImageView>(R.id.posterImageView)
-            val executor = Executors.newSingleThreadExecutor()
-            val handler = Handler(Looper.getMainLooper())
-            var image: Bitmap? = null
-            executor.execute {
-                val imageURL = "https://image.tmdb.org/t/p/w185/${movieUpcoming.posterPath}"
-                try {
-                    val `in` = java.net.URL(imageURL).openStream()
-                    image = BitmapFactory.decodeStream(`in`)
-                    handler.post {
-                        image_view.setImageBitmap(image)
-                    }
-                }
-                catch (e: Exception) {
-                    e.printStackTrace()
-                }
+
+            binding.root.setOnClickListener {
+                val bundle = bundleOf(
+                    "title" to movieUpcoming.title,
+                    "posterPath" to movieUpcoming.posterPath,
+                    "overview" to movieUpcoming.overview
+                )
+
+                it.findNavController().navigate(R.id.action_FirstFragment_to_DetailFragment, bundle)
             }
 
+            // Utilizar Glide o Picasso para cargar imágenes en lugar de la lógica manual
+            Glide.with(binding.root)
+                .load("https://image.tmdb.org/t/p/w185/${movieUpcoming.posterPath}")
+                .into(binding.posterImageView)
         }
     }
-
 }
