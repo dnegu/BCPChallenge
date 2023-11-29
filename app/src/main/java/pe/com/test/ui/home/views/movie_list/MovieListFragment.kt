@@ -1,10 +1,5 @@
 package pe.com.test.ui.home.views.movie_list
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,7 +13,6 @@ import pe.com.test.databinding.FragmentFirstBinding
 import pe.com.test.ui.home.HomeActivity
 import pe.com.test.ui.home.adapters.AdapterMovieUpcoming
 import pe.com.test.ui.home.adapters.MoviePopularAdapter
-import pe.com.test.ui.home.MyViewModel
 
 @AndroidEntryPoint
 class FirstFragment : BaseFragment<FragmentFirstBinding,MovieListViewModel>() {

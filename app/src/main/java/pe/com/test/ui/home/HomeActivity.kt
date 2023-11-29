@@ -1,14 +1,12 @@
 package pe.com.test.ui.home
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.HiltAndroidApp
-import pe.com.test.ui.home.views.movie_list.FirstFragment
 import pe.com.test.R
 import pe.com.test.databinding.ActivityMainBinding
 
