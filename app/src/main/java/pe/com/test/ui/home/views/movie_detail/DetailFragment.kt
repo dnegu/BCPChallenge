@@ -12,28 +12,23 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import pe.com.test.R
+import pe.com.test.common.BaseFragment
+import pe.com.test.databinding.FragmentDetailBinding
 import java.util.concurrent.Executors
 
-class DetailFragment : Fragment() {
+class DetailFragment : BaseFragment<FragmentDetailBinding,MovieDetailViewModel>() {
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_detail, container, false)
-    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun getViewModelClass() = MovieDetailViewModel::class.java
 
-        val tv = view.findViewById<TextView>(R.id.textViewName)
-        tv.text = arguments?.getString("title")
+    override fun getViewBinding() = FragmentDetailBinding.inflate(layoutInflater)
 
-        val tvd = view.findViewById<TextView>(R.id.textViewDescription)
-        tvd.text = arguments?.getString("overview")
+    override fun setUpViews() = with(binding) {
+        super.setUpViews()
 
-        val img = view.findViewById<ImageView>(R.id.imageViewPoster)
+        textViewName.text = arguments?.getString("title")
+        textViewDescription.text = arguments?.getString("overview")
+
         val executor = Executors.newSingleThreadExecutor()
         val handler = Handler(Looper.getMainLooper())
         var image: Bitmap? = null
@@ -43,7 +38,7 @@ class DetailFragment : Fragment() {
                 val `in` = java.net.URL(imageURL).openStream()
                 image = BitmapFactory.decodeStream(`in`)
                 handler.post {
-                    img.setImageBitmap(image)
+                    imageViewPoster.setImageBitmap(image)
                 }
             }
             catch (e: Exception) {
@@ -51,5 +46,4 @@ class DetailFragment : Fragment() {
             }
         }
     }
-
 }

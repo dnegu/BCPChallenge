@@ -17,6 +17,11 @@ class MovieListViewModel @Inject constructor(
     private val getUpcomingMoviesUseCase: UpcomingMoviesUseCase
 ) : ViewModel() {
 
+    init {
+        getPopularMovies()
+        getUpcomingMovies()
+    }
+
     private val _movieList = MutableSharedFlow<MovieListUIEvent>()
     val movieList get() = _movieList.asSharedFlow()
 

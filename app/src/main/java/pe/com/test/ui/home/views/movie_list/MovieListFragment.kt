@@ -23,42 +23,8 @@ class FirstFragment : BaseFragment<FragmentFirstBinding,MovieListViewModel>() {
 
     override fun getViewBinding() = FragmentFirstBinding.inflate(layoutInflater)
 
-/*override fun onCreateView(
-    inflater: LayoutInflater, container: ViewGroup?,
-    savedInstanceState: Bundle?
-): View? {
-
-
-
-
-    view_model!!.da.observe(viewLifecycleOwner) { user ->
-        moviePopularAdapter = MoviePopularAdapter(user)
-        binding?.moviePopularRecyclerView?.layoutManager =
-            LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
-        binding?.moviePopularRecyclerView!!.adapter = moviePopularAdapter
-    }
-
-    view_model!!.error.observe(viewLifecycleOwner) { error ->
-        Snackbar.make(binding!!.baseView, error, Snackbar.LENGTH_LONG).show()
-    }
-
-    view_model!!.movieUpcoming.observe(viewLifecycleOwner) { follow ->
-        adapterUpcoming.data = follow
-        binding?.movieUpcomingRecyclerView?.layoutManager =
-            LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
-        binding?.movieUpcomingRecyclerView!!.adapter = adapterUpcoming
-    }
-
-    view_model!!.data()
-
-    return binding?.root
-}*/
-
     override fun setUpViews() {
         super.setUpViews()
-
-        viewModel.getUpcomingMovies()
-        viewModel.getPopularMovies()
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.movieList.flowWithLifecycle(lifecycle).collectLatest { event ->
