@@ -39,21 +39,16 @@ abstract class BaseFragment<VBinding : ViewBinding, VM : ViewModel> : Fragment()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpViews()
-        observeData()
     }
 
-    open fun setUpViews() {}
-
-    open fun observeView() {}
-
-    open fun observeData() {}
+    open fun setUpViews() {
+        //Implemented in fragments
+    }
 
     private fun init() {
         binding = getViewBinding()
         viewModel = if (useSharedViewModel) {
-            ViewModelProvider(requireActivity()).get(
-                getViewModelClass()
-            )
+            ViewModelProvider(requireActivity())[getViewModelClass()]
         } else {
             ViewModelProvider(this)[getViewModelClass()]
         }

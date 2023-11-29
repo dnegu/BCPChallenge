@@ -17,7 +17,7 @@ import pe.com.test.ui.home.adapters.MoviePopularAdapter
 @AndroidEntryPoint
 class FirstFragment : BaseFragment<FragmentFirstBinding,MovieListViewModel>() {
 
-    var adapterUpcoming = AdapterMovieUpcoming()
+    var adapterUpcoming = AdapterMovieUpcoming(listOf())
     lateinit var moviePopularAdapter: MoviePopularAdapter
     override fun getViewModelClass() = MovieListViewModel::class.java
 
@@ -36,23 +36,26 @@ class FirstFragment : BaseFragment<FragmentFirstBinding,MovieListViewModel>() {
                         (requireActivity() as HomeActivity).showLoading(false)
                     }
                     is MovieListUIEvent.Error -> {
-                        Snackbar.make(binding!!.baseView, event.error, Snackbar.LENGTH_LONG).show()
+                        Snackbar.make(binding.baseView, event.error, Snackbar.LENGTH_LONG).show()
                     }
                     is MovieListUIEvent.SuccessPopular -> {
-                        moviePopularAdapter = MoviePopularAdapter(event.list)
-                        binding.moviePopularRecyclerView.layoutManager =
-                            LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
-                        binding.moviePopularRecyclerView!!.adapter = moviePopularAdapter
+                        with(binding){
+                            moviePopularAdapter = MoviePopularAdapter(event.list)
+                            moviePopularRecyclerView.layoutManager =
+                                LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+                            moviePopularRecyclerView.adapter = moviePopularAdapter
+                        }
                     }
                     is MovieListUIEvent.SuccessUpcoming -> {
-                        adapterUpcoming.data = event.list
-                        binding?.movieUpcomingRecyclerView?.layoutManager =
-                            LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
-                        binding?.movieUpcomingRecyclerView!!.adapter = adapterUpcoming
+                        with(binding){
+                            adapterUpcoming.updateData(event.list)
+                            movieUpcomingRecyclerView.layoutManager =
+                                LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+                            movieUpcomingRecyclerView.adapter = adapterUpcoming
+                        }
                     }
                 }
             }
         }
-
     }
 }
