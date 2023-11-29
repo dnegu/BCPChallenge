@@ -29,7 +29,7 @@ class MovieListViewModel @Inject constructor(
                 _movieList.emit(MovieListUIEvent.SuccessPopular(moviePopularBase.results))
                 _movieList.emit(MovieListUIEvent.HideLoading)
             }.onFailure {
-                _movieList.emit(MovieListUIEvent.Error)
+                _movieList.emit(MovieListUIEvent.Error(it.message.toString()))
                 _movieList.emit(MovieListUIEvent.HideLoading)
             }
         }
@@ -44,7 +44,7 @@ class MovieListViewModel @Inject constructor(
                 _movieList.emit(MovieListUIEvent.SuccessUpcoming(movieUpcomingBase.results))
                 _movieList.emit(MovieListUIEvent.HideLoading)
             }.onFailure {
-                _movieList.emit(MovieListUIEvent.Error)
+                _movieList.emit(MovieListUIEvent.Error(it.message.toString()))
                 _movieList.emit(MovieListUIEvent.HideLoading)
             }
         }

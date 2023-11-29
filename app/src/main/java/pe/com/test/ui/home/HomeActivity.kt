@@ -5,6 +5,7 @@ import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.HiltAndroidApp
 import pe.com.test.ui.home.views.movie_list.FirstFragment
@@ -12,7 +13,7 @@ import pe.com.test.R
 import pe.com.test.databinding.ActivityMainBinding
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -42,6 +43,15 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    fun showLoading(isShowing: Boolean, text: String = "Cargando"){
+        if(isShowing){
+            binding.clProgressBar.visibility = View.VISIBLE
+            binding.tvProgressBar.text = text
+        } else {
+            binding.clProgressBar.visibility = View.GONE
         }
     }
 

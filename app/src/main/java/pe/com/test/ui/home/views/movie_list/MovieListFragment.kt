@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import pe.com.test.common.BaseFragment
 import pe.com.test.databinding.FragmentFirstBinding
+import pe.com.test.ui.home.HomeActivity
 import pe.com.test.ui.home.adapters.AdapterMovieUpcoming
 import pe.com.test.ui.home.adapters.MoviePopularAdapter
 import pe.com.test.ui.home.MyViewModel
@@ -69,13 +70,13 @@ class FirstFragment : BaseFragment<FragmentFirstBinding,MovieListViewModel>() {
             viewModel.movieList.flowWithLifecycle(lifecycle).collectLatest { event ->
                 when(event){
                     MovieListUIEvent.ShowLoading -> {
-
+                        (requireActivity() as HomeActivity).showLoading(true)
                     }
                     MovieListUIEvent.HideLoading -> {
-
+                        (requireActivity() as HomeActivity).showLoading(false)
                     }
-                    MovieListUIEvent.Error -> {
-
+                    is MovieListUIEvent.Error -> {
+                        Snackbar.make(binding!!.baseView, event.error, Snackbar.LENGTH_LONG).show()
                     }
                     is MovieListUIEvent.SuccessPopular -> {
                         moviePopularAdapter = MoviePopularAdapter(event.list)
