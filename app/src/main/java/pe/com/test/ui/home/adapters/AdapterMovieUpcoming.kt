@@ -1,8 +1,7 @@
-package pe.com.test
+package pe.com.test.ui.home.adapters
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.os.AsyncTask
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
@@ -12,22 +11,24 @@ import android.widget.ImageView
 import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import java.net.URL
+import pe.com.test.R
+import pe.com.test.data.network.dto.MovieUpcoming
 import java.util.concurrent.Executors
 
-class MoviePopularAdapter(val moviePopular: List<MoviePopular?>) :
-    RecyclerView.Adapter<MoviePopularAdapter.MoviePopularViewHolder>() {
+class AdapterMovieUpcoming() :
+    RecyclerView.Adapter<AdapterMovieUpcoming.MovieUpcomingViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviePopularViewHolder {
-        val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.item_movie_popular, parent, false)
-        return MoviePopularViewHolder(view)
+    var data: List<MovieUpcoming?> = emptyList()
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieUpcomingViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.movie_upcoming_item, parent, false)
+        return MovieUpcomingViewHolder(view)
     }
 
-    override fun getItemCount(): Int = moviePopular.size
+    override fun getItemCount(): Int = data.size
 
-    override fun onBindViewHolder(holder: MoviePopularViewHolder, position: Int) {
-        val item = moviePopular[position]
+    override fun onBindViewHolder(holder: MovieUpcomingViewHolder, position: Int) {
+        val item = data[position]
         holder.bind(item!!)
         val bundle = bundleOf("title" to item.title, "posterPath" to item.posterPath, "overview" to item.overview)
         holder.itemView.setOnClickListener{ view ->
@@ -35,16 +36,16 @@ class MoviePopularAdapter(val moviePopular: List<MoviePopular?>) :
         }
     }
 
-    class MoviePopularViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        fun bind(moviePopular: MoviePopular) {
+    class MovieUpcomingViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        fun bind(movieUpcoming: MovieUpcoming) {
             val image_view = itemView.findViewById<ImageView>(R.id.posterImageView)
             val executor = Executors.newSingleThreadExecutor()
             val handler = Handler(Looper.getMainLooper())
             var image: Bitmap? = null
             executor.execute {
-                val imageURL = "https://image.tmdb.org/t/p/w185/${moviePopular.posterPath}"
+                val imageURL = "https://image.tmdb.org/t/p/w185/${movieUpcoming.posterPath}"
                 try {
-                    val `in` = URL(imageURL).openStream()
+                    val `in` = java.net.URL(imageURL).openStream()
                     image = BitmapFactory.decodeStream(`in`)
                     handler.post {
                         image_view.setImageBitmap(image)
@@ -54,6 +55,8 @@ class MoviePopularAdapter(val moviePopular: List<MoviePopular?>) :
                     e.printStackTrace()
                 }
             }
+
         }
     }
+
 }

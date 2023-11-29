@@ -1,4 +1,4 @@
-package pe.com.test
+package pe.com.test.ui.home.views.movie_detail
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import pe.com.test.R
 import java.util.concurrent.Executors
 
 class DetailFragment : Fragment() {
