@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 import pe.com.test.common.launch
 import pe.com.test.domain.movie.PopularMoviesUseCase
 import pe.com.test.domain.movie.UpcomingMoviesUseCase
+import pe.com.test.ui.home.objects.HomeObject
 import javax.inject.Inject
 
 @HiltViewModel
@@ -16,6 +17,11 @@ class MovieListViewModel @Inject constructor(
     private val getPopularMoviesUseCase: PopularMoviesUseCase,
     private val getUpcomingMoviesUseCase: UpcomingMoviesUseCase
 ) : ViewModel() {
+
+    private var pagePopular = 1
+    private var pageUpcoming = 1
+    private var language = "en-US"
+    private val homeObject = HomeObject
 
     init {
         getPopularMovies()
@@ -25,11 +31,11 @@ class MovieListViewModel @Inject constructor(
     private val _movieList = MutableSharedFlow<MovieListUIEvent>()
     val movieList get() = _movieList.asSharedFlow()
 
-    fun getPopularMovies() = launch{
+    private fun getPopularMovies() = launch{
         _movieList.emit(MovieListUIEvent.ShowLoading)
         viewModelScope.launch {
             runCatching {
-                getPopularMoviesUseCase("d9ae4921794c06bd0fdbd1463d274804", "1", "en-US")
+                getPopularMoviesUseCase(homeObject.API_KEY_MOVIES, pagePopular.toString(), language)
             }.onSuccess { moviePopularBase ->
                 _movieList.emit(MovieListUIEvent.SuccessPopular(moviePopularBase.results))
                 _movieList.emit(MovieListUIEvent.HideLoading)
@@ -40,11 +46,11 @@ class MovieListViewModel @Inject constructor(
         }
     }
 
-    fun getUpcomingMovies() = launch{
+    private fun getUpcomingMovies() = launch{
         _movieList.emit(MovieListUIEvent.ShowLoading)
         viewModelScope.launch {
             runCatching {
-                getUpcomingMoviesUseCase("d9ae4921794c06bd0fdbd1463d274804", "1", "en-US")
+                getUpcomingMoviesUseCase(homeObject.API_KEY_MOVIES, pageUpcoming.toString(), language)
             }.onSuccess { movieUpcomingBase ->
                 _movieList.emit(MovieListUIEvent.SuccessUpcoming(movieUpcomingBase.results))
                 _movieList.emit(MovieListUIEvent.HideLoading)
